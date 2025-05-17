@@ -28,6 +28,7 @@ setup(
             'image_plant_detector_executable = mars_rover_tasks.plant_detector_node:main',
             'autonomous_exploration_executable = mars_rover_tasks.autonomous_exploration:main', 
             'text_recog_executable = mars_rover_tasks.text_recog_node:main',
+            'mars_rover_s_server_executable = mars_rover_tasks.mars_rover_status_s_server:main',
         ],
     },
 )
