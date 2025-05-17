@@ -27,6 +27,7 @@ setup(
             'publish_mars_rover_move_executable = mars_rover_tasks.publish_mars_rover_move:main',
             'image_plant_detector_executable = mars_rover_tasks.plant_detector_node:main',
             'autonomous_exploration_executable = mars_rover_tasks.autonomous_exploration:main', 
+            'text_recog_executable = mars_rover_tasks.text_recog_node:main',
         ],
     },
 )
