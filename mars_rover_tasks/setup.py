@@ -30,6 +30,7 @@ setup(
             'text_recog_executable = mars_rover_tasks.text_recog_node:main',
             'mars_rover_s_server_executable = mars_rover_tasks.mars_rover_status_s_server:main',
             'text_recog_s_server_executable = mars_rover_tasks.text_recog_s_server:main',
+            'mars_rover_status_s_client_executable = mars_rover_tasks.mars_rover_status_s_client:main',
         ],
     },
 )
