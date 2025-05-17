@@ -1,7 +1,8 @@
 import rclpy
 from rclpy.node import Node
 from sensor_msgs.msg import Image
-from std_msgs.msg import String  # Import String message type
+from nav_msgs.msg import Odometry  # Import Odometry message type
+from custom_interfaces.msg import RoverEvents  # Import RoverEvents custom message type
 from cv_bridge import CvBridge
 import cv2
 from mars_rover_tasks.plant_detector import PlantDetector  # Import the AI class
@@ -25,8 +26,23 @@ class PlantDetectorNode(Node):
             10)
         self.subscription  # prevent unused variable warning
 
-        # Initialize the Publisher for plant detection results
-        self.publisher_ = self.create_publisher(String, '/plant_detector', 10)
+        # Subscribe to the odometry topic
+        self.odom_subscription = self.create_subscription(
+            Odometry,
+            '/odom',
+            self.odom_callback,
+            10)
+        self.odom_subscription  # prevent unused variable warning
+
+        # Initialize the Publisher for rover events
+        self.publisher_ = self.create_publisher(RoverEvents, '/mars_rover_events', 10)
+        
+        # Variable to store the latest odometry message
+        self.current_odom = None
+
+    def odom_callback(self, msg):
+        # Store the current odometry data
+        self.current_odom = msg
 
     def image_callback(self, msg):
         # Convert ROS Image message to OpenCV image
@@ -35,18 +51,26 @@ class PlantDetectorNode(Node):
         # Use the PlantDetector to make a prediction
         prediction = self.plant_detector.predict(cv2.cvtColor(cv_image, cv2.COLOR_BGR2RGB))
         
+        # Create a RoverEvents message
+        rover_event = RoverEvents()
+        
         # Determine the result message based on the prediction
         if prediction > 0.5:
-            result = f"Plant detected with confidence: {prediction:.2f}"
-            self.get_logger().warning(result)
+            rover_event.info.data = f"Plant detected with confidence: {prediction:.2f}"
+            self.get_logger().warning(rover_event.info.data)
+            self.get_logger().warning("Publishing mars rover event...")
+            rover_event.info.data = f"Plant detected with confidence: {prediction:.2f}"
+            # If the odometry data is available, include the rover's location
+            if self.current_odom:
+                rover_event.rover_location = self.current_odom.pose.pose  # Copy the pose data from the odometry
+
+            # Publish the RoverEvents message
+            self.publisher_.publish(rover_event)
         else:
-            result = f"No plant detected. Confidence: {1 - prediction:.2f}"
-            self.get_logger().info(result)
+            rover_event.info.data = f"No plant detected. Confidence: {1 - prediction:.2f}"
+            self.get_logger().info(rover_event.info.data)
         
-        # Publish the result as a String message
-        msg = String()
-        msg.data = result
-        self.publisher_.publish(msg)
+
 
 def main(args=None):
     rclpy.init(args=args)
