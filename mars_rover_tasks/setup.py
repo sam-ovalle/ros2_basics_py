@@ -25,6 +25,7 @@ setup(
         'console_scripts': [
             'subscriber_obstacle_detector_executable = mars_rover_tasks.subscriber_obstacle_detector:main',
             'publish_mars_rover_move_executable = mars_rover_tasks.publish_mars_rover_move:main',
+             'image_plant_detector_executable = mars_rover_tasks.plant_detector_node:main',
         ],
     },
 )
