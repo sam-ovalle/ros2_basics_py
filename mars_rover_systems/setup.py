@@ -1,6 +1,6 @@
+from setuptools import find_packages, setup
 import os
 from glob import glob
-from setuptools import find_packages, setup
 
 package_name = 'mars_rover_systems'
 
@@ -24,7 +24,8 @@ setup(
     entry_points={
         'console_scripts': [
             'heartbeat_executable = mars_rover_systems.heartbeat:main',
-            'heartbeat_executable2 = mars_rover_systems.heartbeat:main2'
+            'heartbeat_executable2 = mars_rover_systems.heartbeat:main2',
+            'temperaturemonitor_executable = mars_rover_systems.temperature_monitor:start_monitor'
         ],
     },
 )
