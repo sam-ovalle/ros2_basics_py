@@ -28,5 +28,15 @@ def main(args=None):
     # shutdown the ROS2 communication
     rclpy.shutdown()
 
+def main2(args=None):
+    # initialize the ROS2 communication
+    rclpy.init(args=args)
+    # declare the node constructor
+    node = HeartbeatNode(rover_name="mars_rover_2", timer_period=1.0)
+    # keeps the node alive, waits for a request to kill the node (ctrl+c)
+    rclpy.spin(node)
+    # shutdown the ROS2 communication
+    rclpy.shutdown()
+
 if __name__ == '__main__':
     main()

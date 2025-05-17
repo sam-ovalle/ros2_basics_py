@@ -21,7 +21,7 @@ setup(
     entry_points={
         'console_scripts': [
             'heartbeat_executable = mars_rover_systems.heartbeat:main',
-            'heartbeat_shutdown_executable = mars_rover_systems.heartbeat:main_shutdown'
+            'heartbeat_executable2 = mars_rover_systems.heartbeat:main2'
         ],
     },
 )
