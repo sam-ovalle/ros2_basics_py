@@ -29,6 +29,10 @@ install(PROGRAMS
   scripts/callback_function.py
   scripts/callback_spinonce_function.py
   scripts/plant_detector.py
+  scripts/plant_detector_multithreading.py
+  scripts/plant_detector_multithreading_callbackgroups.py
+  scripts/green_detector_node.py
+  scripts/green_test.py
   DESTINATION lib/${PROJECT_NAME}
 )
 
