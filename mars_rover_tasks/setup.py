@@ -32,6 +32,8 @@ setup(
             'text_recog_s_server_executable = mars_rover_tasks.text_recog_s_server:main',
             'mars_rover_status_s_client_executable = mars_rover_tasks.mars_rover_status_s_client:main',
             'text_recog_s_client_executable = mars_rover_tasks.text_recog_s_client:main',
+            'text_recog_s_server_custom_executable = mars_rover_tasks.text_recog_s_server_custom:main',
+            'text_recog_s_client_custom_executable = mars_rover_tasks.text_recog_s_client_custom:main',
         ],
     },
 )
