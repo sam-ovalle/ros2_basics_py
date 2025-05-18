@@ -8,7 +8,8 @@ from rclpy.action import ActionClient, ActionServer
 from tf_transformations import quaternion_from_euler
 from action_msgs.msg import GoalStatus
 import time
-from leo_description.action import GoToPose
+#from leo_description.action import GoToPose
+from custom_interfaces.action import GoToPose
 
 class MyActionServer(Node):
     def __init__(self):

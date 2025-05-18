@@ -24,6 +24,7 @@ setup(
     entry_points={
         'console_scripts': [
             'example72 = my_action_client.action_client:main'
+            'example75 = my_action_client.custom_action_client:main'
         ],
     },
 )
