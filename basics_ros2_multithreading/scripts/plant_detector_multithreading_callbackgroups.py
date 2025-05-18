@@ -13,13 +13,14 @@ from rclpy.duration import Duration
 import time
 from std_srvs.srv import Trigger  # Import the Trigger service
 from rclpy.executors import MultiThreadedExecutor
-from rclpy.callback_groups import ReentrantCallbackGroup
+from rclpy.callback_groups import MutuallyExclusiveCallbackGroup
 
 class PlantDetectorNode(Node):
     def __init__(self, image_topic_name = "/leo/camera/image_raw"):
         super().__init__('plant_detector_node')
 
-        self.reentrant_group_1 = ReentrantCallbackGroup()
+        self.mutuallyexclusive_group_1 = MutuallyExclusiveCallbackGroup()
+        self.mutuallyexclusive_group_2 = MutuallyExclusiveCallbackGroup()
 
         self._image_topic_name = image_topic_name
         self.subscription = self.create_subscription(
@@ -27,7 +28,7 @@ class PlantDetectorNode(Node):
             self._image_topic_name,
             self.listener_callback,
             10,
-            callback_group=self.reentrant_group_1)
+            callback_group=self.mutuallyexclusive_group_1)
         self.subscription  # prevent unused variable warning
         self.bridge = CvBridge()
         self.last_image = None
@@ -55,7 +56,7 @@ class PlantDetectorNode(Node):
         ])
 
         # Create the service for plant detection
-        self.srv = self.create_service(Trigger, 'detect_plants', self.detect_plants_callback, callback_group=self.reentrant_group_1)
+        self.srv = self.create_service(Trigger, 'detect_plants', self.detect_plants_callback, callback_group=self.mutuallyexclusive_group_2)
 
     def listener_callback(self, data):
         self.get_logger().info('Receiving video frame')
